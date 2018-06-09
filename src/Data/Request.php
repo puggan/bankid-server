@@ -47,6 +47,11 @@
 		public $url_path;
 		public $url_query;
 
+		/**
+		 * Request constructor.
+		 *
+		 * @param mixed[] $properties
+		 */
 		public function __construct(Array $properties = [])
 		{
 			foreach($properties as $key => $value)
@@ -56,6 +61,9 @@
 			$this->parse_url();
 		}
 
+		/**
+		 * Parse $this->url in to $this->url_*
+		 */
 		function parse_url()
 		{
 			foreach(parse_url($this->url) as $key => $value)
@@ -66,6 +74,10 @@
 			}
 		}
 
+		/**
+		 * Parse data as json
+		 * @return mixed
+		 */
 		function json()
 		{
 			if($this->json === NULL)
@@ -77,6 +89,9 @@
 		}
 
 		/**
+		 * Validate that required fields exists,
+		 * and return only the wanted fields
+		 *
 		 * @param string[] $required
 		 * @param mixed[] $optional_default
 		 *
