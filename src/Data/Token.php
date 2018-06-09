@@ -45,6 +45,8 @@
 		public const STATUS_COMPLETE = 'complete';
 		public const STATUS_FAILED = 'failed';
 
+		public static $db_file = __DIR__ . '/../../tokens.db';
+
 		public $identification;
 		public $token;
 		public $auto_token;
@@ -279,10 +281,10 @@
 			{
 				if($read_only)
 				{
-					return new \SQLite3(__DIR__ . '/../../tokens.db', SQLITE3_OPEN_READONLY);
+					return new \SQLite3(self::$db_file, SQLITE3_OPEN_READONLY);
 				}
 
-				$db = new \SQLite3(__DIR__ . '/../../tokens.db');
+				$db = new \SQLite3(self::$db_file);
 			}
 			catch(\Exception $e)
 			{
