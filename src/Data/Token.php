@@ -10,6 +10,7 @@
 
 	use byrokrat\id\Exception\InvalidCheckDigitException;
 	use byrokrat\id\Exception\InvalidDateStructureException;
+	use byrokrat\id\Exception\InvalidStructureException;
 	use byrokrat\id\PersonalId;
 	use Puggan\BankIDServer\Exceptions\InternalError;
 	use Puggan\BankIDServer\Exceptions\InvalidParameters;
@@ -113,6 +114,10 @@
 						$this->save();
 					}
 					catch(InvalidDateStructureException $e)
+					{
+						throw new InvalidParameters('Felaktigt formaterat personnummer', 0,$e);
+					}
+					catch(InvalidStructureException $e)
 					{
 						throw new InvalidParameters('Felaktigt formaterat personnummer', 0,$e);
 					}
