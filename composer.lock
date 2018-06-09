@@ -1,0 +1,69 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "00d7b2d0d22b2c54143ad3bc9889951e",
+    "packages": [
+        {
+            "name": "byrokrat/id",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/byrokrat/id.git",
+                "reference": "f320cf4f22ffd4279bcbccbb63978ce3132f8b15"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/byrokrat/id/zipball/f320cf4f22ffd4279bcbccbb63978ce3132f8b15",
+                "reference": "f320cf4f22ffd4279bcbccbb63978ce3132f8b15",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "hanneskod/readme-tester": "1.0-beta.1",
+                "phpunit/phpunit": "^4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "byrokrat\\id\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Unlicense"
+            ],
+            "authors": [
+                {
+                    "name": "Hannes Forsgård",
+                    "email": "hannes.forsgard@fripost.org"
+                }
+            ],
+            "description": "Data types for swedish social security and corporation id numbers",
+            "homepage": "https://github.com/byrokrat/id",
+            "keywords": [
+                "Corporation id",
+                "Organisationsnummer",
+                "Personal id",
+                "Personnummer",
+                "Social security number",
+                "id"
+            ],
+            "time": "2017-12-20T14:00:49+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": "^7.2"
+    },
+    "platform-dev": []
+}

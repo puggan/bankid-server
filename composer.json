@@ -1,0 +1,21 @@
+{
+    "name": "puggan/bankid-server",
+    "description": "Auto responding test-server for BankID integration",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Thorbjörn Sundragon",
+            "email": "puggan@spiro.se"
+        }
+    ],
+    "require": {
+        "byrokrat/id": "^1.1",
+        "php": "^7.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Puggan\\BankIDServer\\": "src/"
+        }
+    }
+}
