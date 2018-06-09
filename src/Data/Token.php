@@ -291,7 +291,7 @@
 				throw new InternalError('Failed to open database.' . PHP_EOL . $e->getMessage(), 0, $e);
 			}
 
-			$db->exec('CREATE TABLE tokens (id STRING, auto_token STRING, identification STRING, status STRING, hint STRING, created_at BIGINT, expires_at BIGINT, fetched_at BIGINT)');
+			$db->exec('CREATE TABLE IF NOT EXISTS tokens (id STRING, auto_token STRING, identification STRING, status STRING, hint STRING, created_at BIGINT, expires_at BIGINT, fetched_at BIGINT)');
 
 			return $db;
 		}
