@@ -4,6 +4,7 @@
 
 	require_once __DIR__ . '/vendor/autoload.php';
 
+	use Puggan\BankIDServer\Data\Response;
 	use Puggan\BankIDServer\Exceptions\Exception;
 
 	require_once __DIR__ . '/src/Data/Request.php';
@@ -17,6 +18,15 @@
 		{
 			readfile($index_file_path);
 			die();
+		}
+	}
+
+	if(isset($_SERVER['SSL_CLIENT_CERT']))
+	{
+		$expected = file_get_contents(__DIR__ . '/cert/test.crt.pem');
+		if($_SERVER['SSL_CLIENT_CERT'] !== $expected)
+		{
+			Response::make_error('Invalid client certificate', 500, 'bad certificate');
 		}
 	}
 
