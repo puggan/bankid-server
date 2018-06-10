@@ -45,7 +45,7 @@
 		public const STATUS_COMPLETE = 'complete';
 		public const STATUS_FAILED = 'failed';
 
-		public static $db_file = __DIR__ . '/../../tokens.db';
+		public static $db_file = __DIR__ . '/../../db/tokens.db';
 
 		public $identification;
 		public $token;
