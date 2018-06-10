@@ -184,7 +184,6 @@
 		 */
 		public function save()
 		{
-			$db = self::db();
 			if($this->loaded_data)
 			{
 				$updates = [];
@@ -197,9 +196,11 @@
 				}
 				if(!$updates)
 				{
+
 					return;
 				}
 
+				$db = self::db();
 				$query = $db->prepare("UPDATE tokens SET " . implode(', ', $updates));
 				foreach(array_keys($updates) as $key)
 				{
@@ -207,13 +208,16 @@
 				}
 				if($query->execute() === FALSE)
 				{
+					$db->close();
 					throw new InternalError('Failed to write to database');
 				}
 
-				$this->loaded_data = self::dbrow($this->token);
+				$this->loaded_data = self::dbrow($this->token, $db);
+				$db->close();
 				return;
 			}
 
+			$db = self::db();
 			$query = $db->prepare(
 				'INSERT INTO tokens (id, auto_token, identification, status, hint, created_at, expires_at, fetched_at) VALUES (:id, :auto_token, :identification, :status, :hint, :created_at, :expires_at, NULL)'
 			);
