@@ -34,7 +34,7 @@
 		[
 			'ip' => $_SERVER['REMOTE_ADDR'],
 			'port' => $_SERVER['REMOTE_PORT'],
-			'ua' => $_SERVER['HTTP_USER_AGENT'],
+			'ua' => $_SERVER['HTTP_USER_AGENT'] ?? 'anonymous ua',
 			'url' => $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
 			'method' => $_SERVER['REQUEST_METHOD'],
 			'content_type' => $_SERVER["CONTENT_TYPE"],

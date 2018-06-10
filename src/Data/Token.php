@@ -117,11 +117,11 @@
 					}
 					catch(InvalidDateStructureException $e)
 					{
-						throw new InvalidParameters('Felaktigt formaterat personnummer', 0,$e);
+						throw new InvalidParameters('Felaktigt formaterat personnummer', 0, $e);
 					}
 					catch(InvalidStructureException $e)
 					{
-						throw new InvalidParameters('Felaktigt formaterat personnummer', 0,$e);
+						throw new InvalidParameters('Felaktigt formaterat personnummer', 0, $e);
 					}
 				}
 			}
@@ -225,7 +225,9 @@
 			$query->bindValue('expires_at', $this->expires_at);
 			$query->execute();
 
-			$this->loaded_data = self::dbrow($this->token);
+			$this->loaded_data = self::dbrow($this->token, $db);
+
+			$db->close();
 		}
 
 		/**
@@ -251,22 +253,36 @@
 		/**
 		 * @param string $token
 		 *
+		 * @param \SQLite3 $existing_db
+		 *
 		 * @return array|null
 		 */
-		static function dbrow($token)
+		static function dbrow($token, $existing_db = NULL)
 		{
-			try
+			if($existing_db)
 			{
-				$db = self::db(TRUE);
+				$db = $existing_db;
 			}
-			catch(InternalError $e)
+			else
 			{
-				return NULL;
+				try
+				{
+					$db = self::db(TRUE);
+				}
+				catch(InternalError $e)
+				{
+					return NULL;
+				}
 			}
 
 			$query = $db->prepare('SELECT * FROM tokens WHERE id = :id');
 			$query->bindValue('id', $token, SQLITE3_TEXT);
-			return $query->execute()->fetchArray();
+			$row = $query->execute()->fetchArray();
+			if(!$existing_db)
+			{
+				$db->close();
+			}
+			return $row;
 		}
 
 		/**
