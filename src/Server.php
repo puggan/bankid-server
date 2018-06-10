@@ -31,17 +31,18 @@
 		 */
 		public function __construct(Request $request_data)
 		{
-			$pattern = '@^/(?<response>[a-zA-Z]+/)?(?<time>[0-9]+/)?v(?<version>[0-9]+)(?<api_path>/.*)?$@';
+			$pattern = '@^/((?<response>[a-zA-Z]+)/)?((?<time>[0-9]+)/)?(rp/)?v(?<version>[0-9]+)(?<api_path>/.*)?$@';
 			if(!preg_match($pattern, $request_data->url_path, $regexp_data))
 			{
 				throw new BadURL('Failed to parse ' . $request_data->url_path);
 			}
 
-			$this->prefered_response = $regexp_data['response'] ?? NULL ?: 'complete';
+			$this->prefered_response = $regexp_data['response'] ?? NULL ?: Token::STATUS_COMPLETE;
 			$this->prefered_response_time = $regexp_data['time'] ?? NULL ?: 10;
 			$this->version = $regexp_data['version'] ?? NULL;
 			$this->api_path = $regexp_data['api_path'] ?? NULL;
 			$this->request = $request_data;
+			if($this->prefered_response === 'rp') $this->prefered_response = Token::STATUS_COMPLETE;
 		}
 
 		/**
@@ -159,14 +160,14 @@
 						throw new InvalidParameters('Token not found');
 					}
 
+					$this->pretend($token);
+
 					$response_data = [
 						'orderRef' => $token->token,
 						'status' => $token->status,
 					];
 
-					$this->pretend($token);
-
-					if($token->status === 'complete')
+					if($token->status === Token::STATUS_COMPLETE)
 					{
 						$response_data['completionData'] = [
 							'user' => $token->user,
@@ -219,8 +220,14 @@
 			}
 
 			// Pending statuses
-			if($this->prefered_response == Token::STATUS_COMPLETE)
+			if($this->prefered_response === Token::STATUS_COMPLETE)
 			{
+				$time_limit_s = time() - $this->prefered_response_time;
+				if($token->created_at > 1000 * $time_limit_s)
+				{
+					return;
+				}
+
 				$token->status = Token::STATUS_COMPLETE;
 			}
 			else if(\in_array(
